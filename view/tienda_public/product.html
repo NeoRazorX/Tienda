@@ -1,0 +1,84 @@
+{include="tienda_public/header"}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="btn-group hidden-xs">
+				<a class="btn btn-sm btn-default" href="index.php?page=ventas_tienda" title="Regresar">
+					<span class="glyphicon glyphicon-arrow-left"></span> Regresar
+				</a>
+				<a class="btn btn-sm btn-default" href="{$fsc->url()}&ref={$fsc->articulo->referencia}" title="Recargar la página">
+					<span class="glyphicon glyphicon-refresh"></span>
+				</a>
+			</div>
+		</div>
+		<div class="col-sm-7">
+			<h1 style="margin-top:0px;"><span class="glyphicon glyphicon-book"></span> {$fsc->articulo->referencia}</h1><br>
+		</div>
+		<div class="col-sm-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Descripción del producto</div>
+				<div class="panel-body">
+					{$img=$fsc->articulo->imagen_url_public()}
+					{if="$img"}
+					<div class="thumbnail">
+						<img src="{$img}" alt="..." style="height:300px;">
+						<div class="caption">
+							<p>{$fsc->articulo->descripcion}</p>
+							<p><a href="#" class="btn btn-success" role="button">{$fsc->simbolo_divisa()}{$fsc->articulo->pvp_iva()}</a></p>
+						</div>
+					</div>
+					{else}
+					<div class="thumbnail">
+						<img src="plugins/tienda/view/img/product.png" alt="..." style="height:300px;">
+						<div class="caption">
+							<p>{$fsc->articulo->descripcion}</p>
+							<p><a href="#" class="btn btn-success" role="button">{$fsc->simbolo_divisa()}{$fsc->articulo->pvp_iva()}</a></p>
+						</div>
+					</div>
+					{/if}
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			{if="$fsc->articulo->stockfis == 0"}
+			<div class="panel panel-danger">
+				<div class="panel-heading">No hay stock disponible</div>
+				<div class="panel-body">En este momento no hay stock de {$fsc->articulo->referencia}.
+				Lo sentimos.</div>
+			</div>
+			{else}
+			<div class="panel panel-success">
+				<div class="panel-heading">Stock disponible</div>
+				<div class="panel-body">Hay stock disponible de {$fsc->articulo->referencia}</div>
+			</div>
+			{/if}
+		</div>
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">Comprar</div>
+				<div class="panel-body">
+					<div class="row">
+						<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="blank">
+							<input type="hidden" name="cmd" value="_xclick">
+							<input type="hidden" name="business" value="{$fsc->paramtienda['mailtienda']}">
+							<input type="hidden" name="item_name" value="{$fsc->articulo->referencia}">
+							<input type="hidden" name="item_number" value="{$fsc->articulo->referencia}">
+							<input type="hidden" name="currency_code" value="{$fsc->paramtienda['divtienda']}">
+							<input type="hidden" value="1" name="no_note"/>
+							<input type="hidden" value="1" name="no_shipping"/>
+							<input type="hidden" name="amount" value="{$fsc->articulo->pvp_iva()}">
+							<input type="hidden" name="return" value="RETURN_URL">
+							<input type="hidden" name="cancel_return" value="CANCEL_URL">
+							<input type="hidden" name="notify_url" value="STATUS_URL">
+							<div class="col-sm-4">
+							<input type="submit" class="btn btn-success" value="Comprar" />
+								
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{include="tienda_public/footer"}

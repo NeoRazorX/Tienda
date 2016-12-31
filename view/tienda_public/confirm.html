@@ -1,0 +1,159 @@
+{include="tienda_public/header"}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="btn-group hidden-xs">
+				<a class="btn btn-sm btn-default" href="index.php?page=ventas_tienda" title="Regresar">
+					<span class="glyphicon glyphicon-arrow-left"></span> Regresar
+				</a>
+				<a class="btn btn-sm btn-default" href="{$fsc->url()}&ref={$fsc->articulo->referencia}" title="Recargar la página">
+					<span class="glyphicon glyphicon-refresh"></span>
+				</a>
+			</div>
+		</div>
+		<div class="col-sm-7">
+			<h1 style="margin-top:0px;"><span class="glyphicon glyphicon-book"></span> {$fsc->articulo->referencia}</h1><br>
+		</div>
+		<div class="col-sm-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Descripción del producto</div>
+				<div class="panel-body">
+					{$img=$fsc->articulo->imagen_url_public()}
+					{if="$img"}
+					<div class="thumbnail">
+						<img src="{$img}" alt="..." style="height:300px;">
+						<div class="caption">
+							<p>{$fsc->articulo->descripcion}</p>
+							<p><a href="#" class="btn btn-success" role="button">{$fsc->simbolo_divisa()}{$fsc->articulo->pvp_iva()}</a></p>
+						</div>
+					</div>
+					{else}
+					<div class="thumbnail">
+						<img src="plugins/tienda/view/img/product.png" alt="..." style="height:300px;">
+						<div class="caption">
+							<p>{$fsc->articulo->descripcion}</p>
+							<p><a href="#" class="btn btn-success" role="button">{$fsc->simbolo_divisa()}{$fsc->articulo->pvp_iva()}</a></p>
+						</div>
+					</div>
+					{/if}
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			{if="$fsc->articulo->stockfis == 0"}
+			<div class="panel panel-danger">
+				<div class="panel-heading">No hay stock disponible</div>
+				<div class="panel-body">En este momento no hay stock de {$fsc->articulo->referencia}.
+				Lo sentimos.</div>
+			</div>
+			{else}
+			<div class="panel panel-success">
+				<div class="panel-heading">Stock disponible</div>
+				<div class="panel-body">Hay stock disponible de {$fsc->articulo->referencia}</div>
+			</div>
+			{/if}
+		</div>
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">Comprar</div>
+				<div class="panel-body">
+					<div class="row">
+						<form action="{$fsc->url()}" method="post" target="blank">
+							<input type="hidden" name="cmd" value="_xclick">
+							<input type="hidden" name="business" value="{$fsc->paramtienda['mailtienda']}">
+							<input type="hidden" name="item_name" value="{$fsc->articulo->referencia}">
+							<input type="hidden" name="item_number" value="{$fsc->articulo->referencia}">
+							<input type="hidden" name="currency_code" value="{$fsc->paramtienda['divtienda']}">
+							<input type="hidden" value="1" name="no_note"/>
+							<input type="hidden" value="1" name="no_shipping"/>
+							<input type="hidden" name="amount" value="{$fsc->articulo->pvp_iva()}">
+							<input type="hidden" name="return" value="RETURN_URL">
+							<input type="hidden" name="cancel_return" value="CANCEL_URL">
+							<input type="hidden" name="notify_url" value="STATUS_URL">
+							<div class="col-sm-12"><h4 style="margin-top:0px;">Datos de cliente:</h4></div>
+							<br><br>
+							<div class="col-sm-4">
+								Nombre y apellido completo:
+								<input type="text" name="nombre" class="form-control">
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="col-sm-12">
+									Identificador fiscal:
+								</div>
+								<div class="col-sm-4">
+									<select name="tipoidfiscal" class="form-control">
+										{$tiposid=fs_tipos_id_fiscal()}
+										{loop="$tiposid"}
+										<option value="{$value}">{$value}</option>
+										{/loop}
+									</select>
+								</div>
+								<div class="col-sm-8">
+									<input type="text" name="cifnif" class="form-control">
+								</div>
+							</div>
+							<div class="col-sm-4">
+								Telefono:
+								<input type="text" name="telefono1" class="form-control">
+							</div>
+							<div class="col-sm-4">
+								Telefono opcional:
+								<input type="text" name="telefono2" class="form-control">
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<hr>
+									<div class="col-sm-12"><h4>Datos de dirección:</h4></div>
+									<br>
+									<br>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">
+											<a href="{$fsc->pais->url()}">País</a>
+										</label>
+										<div class="col-sm-10">
+											<select class="form-control" name="pais">
+												{loop="$fsc->pais->all()"}
+												<option value="{$value->codpais}"{if="$value->is_default()"} selected=""{/if}>{$value->nombre}</option>
+												{/loop}
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label text-capitalize">{#FS_PROVINCIA#}</label>
+										<div class="col-sm-10">
+											<input type="text" name="provincia" id="ac_provincia" class="form-control" autocomplete="off" required=""/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">Ciudad</label>
+										<div class="col-sm-10">
+											<input type="text" name="ciudad" class="form-control" required=""/>
+											
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">Cód. Postal</label>
+										<div class="col-sm-10">
+											<input type="text" name="codpostal" class="form-control" required=""/>
+											
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">Dirección</label>
+										<div class="col-sm-10">
+											<input type="text" name="direccion" class="form-control" autocomplete="off" required=""/>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+							<input type="submit" class="btn btn-success" value="Comprar" />
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{include="tienda_public/footer"}

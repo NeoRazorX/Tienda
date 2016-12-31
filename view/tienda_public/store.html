@@ -1,0 +1,139 @@
+{include="tienda_public/header"}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<a class="btn btn-sm btn-default" href="{$fsc->url()}	" title="Recargar la página">
+				<span class="glyphicon glyphicon-refresh"></span>
+			</a>
+		</div>
+		<div class="col-sm-12">
+			<br>
+			<ul class="nav nav-tabs">
+				<li role="presentation"{if="$fsc->mostrar=='portada'"} class="active"{/if}>
+					<a href="{$fsc->url()}">
+						<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>&nbsp; Tienda
+					</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="row">
+					<div class="col-sm-2">
+						<br>
+						<form action="{$fsc->url()}" method="post" class="form">
+							<div class="input-group">
+								<input type="text" name="buscar" value="{$fsc->buscar}" class="form-control" placeholder="Buscar" autocomplete="off"/>
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="submit">
+									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</span>
+							</div>
+						</form>
+					</div>
+					<div class="col-sm-4">
+						<br>
+						{if="$fsc->buscar"}
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; <b> Resultados de: {$fsc->buscar}</b>
+						{/if}
+					</div>
+				</div>
+				<br>
+				<div id="tienda_index" class="tab-pane active">
+					{if="$fsc->buscar==''"}
+					{loop="$fsc->articulo->all_publico()"}
+					<div class="col-sm-2">
+						{$img=$value->imagen_url_public()}
+						{if="$img"}
+						<div class="thumbnail">
+							<img src="{$img}" alt="..." style="height:300px;">
+							<div class="caption">
+								<h3>{$value->referencia}</h3>
+								<p>{$value->descripcion()}</p>
+								{if="$value->stockfis == 0"}
+								<p class="bg-warning">Sin stock</p>
+								{else}
+								<p class="bg-success">Con stock</p>
+								{/if}
+								<p><a href="#" class="btn btn-success" role="button">{$fsc->simbolo_divisa()}{$value->pvp_iva()}</a> <a href="{$value->url_public()}" class="btn btn-primary" role="button">Ver más</a></p>
+							</div>
+						</div>
+						{else}
+						<div class="thumbnail">
+							<img src="plugins/tienda/view/img/product.png" alt="..." style="height:300px;">
+							<div class="caption">
+								<h3>{$value->referencia}</h3>
+								<p>{$value->descripcion()}</p>
+								{if="$value->stockfis == 0"}
+								<p class="bg-warning">Sin stock</p>
+								{else}
+								<p class="bg-success">Con stock</p>
+								{/if}
+								<p><a href="#" class="btn btn-success" role="button">{$fsc->simbolo_divisa()}{$value->pvp_iva()}</a> <a href="{$value->url_public()}" class="btn btn-primary" role="button">Ver más</a></p>
+							</div>
+						</div>
+						{/if}
+					</div>
+					{/loop}
+					{else}
+					{loop="$fsc->articulos"}
+					<div class="col-sm-2">
+						{$img=$value->imagen_url_public()}
+						{if="$img"}
+						<div class="thumbnail">
+							<img src="{$img}" alt="..." style="height:300px;">
+							<div class="caption">
+								<h3>{$value->referencia}</h3>
+								<p>{$value->descripcion()}</p>
+								{if="$value->stockfis == 0"}
+								<p class="bg-warning">Sin stock</p>
+								{else}
+								<p class="bg-success">Con stock</p>
+								{/if}
+								<p><a href="#" class="btn btn-success" role="button">{$fsc->simbolo_divisa()}{$value->pvp_iva()}</a> <a href="{$value->url_public()}" class="btn btn-primary" role="button">Ver más</a></p>
+							</div>
+						</div>
+						{else}
+						<div class="thumbnail">
+							<img src="plugins/tienda/view/img/product.png" alt="..." style="height:300px;">
+							<div class="caption">
+								<h3>{$value->referencia}</h3>
+								<p>{$value->descripcion()}</p>
+								{if="$value->stockfis == 0"}
+								<p class="bg-warning">Sin stock</p>
+								{else}
+								<p class="bg-success">Con stock</p>
+								{/if}
+								<p><a href="#" class="btn btn-success" role="button">{$fsc->simbolo_divisa()}{$value->pvp_iva()}</a> <a href="{$value->url_public()}" class="btn btn-primary" role="button">Ver más</a></p>
+							</div>
+						</div>
+						{/if}
+					</div>
+					{/loop}
+					{/if}
+					<div class="row">
+						<div class="col-sm-12 pull-center">
+							<ul class="pager">
+								{if="$fsc->offset>0"}
+								<li class="previous">
+									<a href="{$fsc->anterior_url()}">
+										<span class="glyphicon glyphicon-chevron-left"></span> &nbsp; Anteriores
+									</a>
+								</li>
+								{/if}
+								{if="count($fsc->articulos)==FS_ITEM_LIMIT"}
+								<li class="next">
+									<a href="{$fsc->siguiente_url()}">
+										Siguientes &nbsp; <span class="glyphicon glyphicon-chevron-right"></span>
+									</a>
+								</li>
+								{/if}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{include="tienda_public/footer"}

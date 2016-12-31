@@ -1,0 +1,51 @@
+{include="header"}
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-xs-6">
+         <div class="btn-group hidden-xs">
+            <a class="btn btn-sm btn-default" href="{$fsc->url()}" title="Recargar la página">
+               <span class="glyphicon glyphicon-refresh"></span>
+            </a>
+            {if="$fsc->page->is_default()"}
+            <a class="btn btn-sm btn-default active" href="{$fsc->url()}&amp;default_page=FALSE" title="desmarcar como página de inicio">
+               <span class="glyphicon glyphicon-home"></span>
+            </a>
+            {else}
+            <a class="btn btn-sm btn-default" href="{$fsc->url()}&amp;default_page=TRUE" title="marcar como página de inicio">
+               <span class="glyphicon glyphicon-home"></span>
+            </a>
+            {/if}
+         </div>
+         <div class="btn-group">
+            {loop="$fsc->extensions"}
+            {if="$value->type=='button'"}
+            <a href="index.php?page={$value->from}{$value->params}" class="btn btn-sm btn-default">{$value->text}</a>
+            {/if}
+            {/loop}
+         </div>
+      </div>
+      <div class="col-sm-6">
+         <h2 class="pull-right" style="margin-top:0px;"><span class="glyphicon glyphicon-shopping-cart"></span> Tienda</h2>
+      </div>
+      <div class="col-sm-12">
+         <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tienda_conf"><span class="glyphicon glyphicon-wrench"></span> Configuración</a></li>
+         </ul>
+         <div class="tab-content">
+            <div id="tienda_conf" class="tab-pane active">
+               <div class="col-sm-6">
+                  <form name="paramtienda" action="{$fsc->url()}" method="post">
+                     Mail de la cuenta de paypal:
+                     <input type="text" name="mailtienda" value="{$fsc->paramtienda['mailtienda']}" class="form-control">
+                     Divisa de la tienda:
+                     <input type="text" name="divtienda" value="{$fsc->paramtienda['divtienda']}" class="form-control">
+                     <br>
+                     <input type="submit" class="btn btn-success" value="Guardar" />
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{include="footer"}
