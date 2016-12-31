@@ -41,7 +41,6 @@ class ventas_tienda_articulos extends fs_controller
     $this->articulo = new articulo();
     $this->cliente = new cliente();
 
-
       if( isset($_POST['referencia']) )
       {
          $this->articulo = $articulo->get($_POST['referencia']);
@@ -117,6 +116,15 @@ class ventas_tienda_articulos extends fs_controller
 
     }
 
+		public function ajax_art($json)
+		{
+			$articulo = new articulo();
+
+			$json = $articulo->get($_GET['ref']);
+
+			echo json_encode($json);
+		}
+
    public function full_url()
    {
       $url = $this->empresa->web;
@@ -131,6 +139,28 @@ class ventas_tienda_articulos extends fs_controller
             {
                $aux = parse_url( str_replace('/index.php', '', $_SERVER['REQUEST_URI']) );
                $url .= $aux['path'];
+            }
+         }
+      }
+
+      return $url;
+   }
+
+	 public function art_ajx_url()
+   {
+      $url = $this->empresa->web;
+
+      if( isset($_SERVER['SERVER_NAME']) )
+      {
+         if($_SERVER['SERVER_NAME'] == 'localhost')
+         {
+            $url = 'http://'.$_SERVER['SERVER_NAME'];
+
+            if( isset($_SERVER['REQUEST_URI']) )
+            {
+               $aux = parse_url( str_replace('/index.php', '', $_SERVER['REQUEST_URI']) );
+							 $url .= $aux['path'];
+               $url .= "/index.php?page=ventas_tienda_ajax_car&ref=";
             }
          }
       }

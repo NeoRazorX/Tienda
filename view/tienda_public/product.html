@@ -1,5 +1,10 @@
 {include="tienda_public/header"}
-<div class="container-fluid">
+
+<script type="text/javascript">
+	var articulo_id = "{$fsc->art_ajx_url()}{$fsc->articulo->referencia}";
+</script>
+<div ng-app="ctrltiendacar" ng-controller="ctrltienda">
+{{posts.descripcion}}
 	<div class="row">
 		<div class="col-sm-5">
 			<div class="btn-group hidden-xs">
@@ -52,6 +57,17 @@
 				<div class="panel-body">Hay stock disponible de {$fsc->articulo->referencia}</div>
 			</div>
 			{/if}
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Tu carrito</h3>
+			  </div>
+			  <div class="panel-body">
+
+			  </div>
+			  <div class="panel-footer">
+
+			  </div>
+			</div>
 		</div>
 		<div class="col-sm-12">
 			<div class="panel panel-default">
@@ -72,7 +88,7 @@
 							<input type="hidden" name="notify_url" value="STATUS_URL">
 							<div class="col-sm-4">
 							<input type="submit" class="btn btn-success" value="Comprar" />
-								
+
 							</div>
 						</form>
 					</div>

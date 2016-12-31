@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,18 +23,17 @@ require_once 'plugins/facturacion_base/model/core/articulo.php';
  * Albarán de proveedor o albarán de compra. Representa la recepción
  * de un material que se ha comprado. Implica la entrada de ese material
  * al almacén.
- * 
+ *
  * @author Carlos García Gómez <neorazorx@gmail.com>
  */
 class articulo extends FacturaScripts\model\articulo
 {
-
-	public function all_publico($offset=0, $limit=FS_ITEM_LIMIT)
+	 public function all_publico($offset=0, $limit=FS_ITEM_LIMIT)
    {
       $artilist = array();
       $sql = "SELECT * FROM ".$this->table_name
               ." WHERE publico ORDER BY lower(referencia) ASC";
-      
+
       $data = $this->db->select_limit($sql, $limit, $offset);
       if($data)
       {
@@ -43,7 +42,7 @@ class articulo extends FacturaScripts\model\articulo
             $artilist[] = new \articulo($d);
          }
       }
-      
+
       return $artilist;
    }
 
@@ -70,6 +69,23 @@ class articulo extends FacturaScripts\model\articulo
       else
          return FALSE;
    }
-   
-}
 
+	 public function all_publico_ajax($offset=0, $limit=FS_ITEM_LIMIT)
+   {
+      $artilist = array();
+      $sql = "SELECT * FROM ".$this->table_name
+              ." WHERE publico ORDER BY lower(referencia) ASC";
+
+      $data = $this->db->select_limit($sql, $limit, $offset);
+      if($data)
+      {
+         foreach($data as $d)
+         {
+            $artilist[] = new \articulo($d);
+         }
+      }
+
+			echo json_encode($artilist);
+   }
+
+}

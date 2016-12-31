@@ -7,9 +7,9 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="generator" content="FacturaScripts" />
       <link rel="Publisher" href="https://www.google.com/+Neorazorx"/>
-      <link rel="shortcut icon" href="{$fsc->full_url()}/plugins/informame/view/img/favicon.ico" />
       <link rel="stylesheet" href="{$fsc->full_url()}/view/css/bootstrap-yeti.min.css" />
-      <link rel="stylesheet" href="{$fsc->full_url()}/plugins/informame/view/css/custom.css" />
+      <script type="text/javascript" src="{$fsc->full_url()}/plugins/Tienda/assets/angular.min.js" /></script>
+      <script type="text/javascript" src="{$fsc->full_url()}/plugins/Tienda/assets/ctrltiendacar.js" /></script>x
       <script type="text/javascript" src="{$fsc->full_url()}/view/js/jquery.min.js"></script>
       <script type="text/javascript" src="{$fsc->full_url()}/view/js/bootstrap.min.js"></script>
    </head>
@@ -43,7 +43,7 @@
             </div>
          </div>
       </nav>
-      
+
       <div class="modal" id="modal_ayuda" tabindex="-1" role="dialog">
          <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -57,12 +57,6 @@
                   </h4>
                </div>
                <div class="modal-body">
-                  <p class='help-block'>
-                     {$fsc->empresa->nombrecorto} es un agregador de noticias automatizado
-                     que funciona con el plugin <u>informame</u> de <b>FacturaScripts</b>.
-                     Lee las últimas noticias de las fuentes configuradas por el administrador,
-                     las agrupa, calcula su popularidad y genera esta portada.
-                  </p>
                   <br/>
                   <div class="row">
                      <div class="col-sm-4">
@@ -85,7 +79,7 @@
             </div>
          </div>
       </div>
-      
+
       <form action="{$fsc->full_url()}/" method="post" class="form">
          <div class="modal" id="modal_login" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-sm" role="document">
@@ -116,7 +110,7 @@
             </div>
          </div>
       </form>
-      
+
       {if="$fsc->get_errors()"}
       <div class="alert alert-danger">
          <ul>{loop="$fsc->get_errors()"}<li>{$value}</li>{/loop}</ul>
@@ -132,3 +126,7 @@
          <ul>{loop="$fsc->get_advices()"}<li>{$value}</li>{/loop}</ul>
       </div>
       {/if}
+
+      <script type="text/javascript">
+        var base_url = "{$fsc->url()}";
+      </script>
